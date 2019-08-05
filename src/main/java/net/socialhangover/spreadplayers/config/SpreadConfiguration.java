@@ -12,11 +12,11 @@ public class SpreadConfiguration {
 
     private final double distance;
 
-    private final double bounds;
+    private final double range;
 
     public String getCommandString(Player player) {
         return String.format("spreadplayers %d %d %d %d %b %s", origin.getX(), origin.getY(), distance,
-                bounds, false, player.getName());
+                range, false, player.getName());
     }
 
 }
