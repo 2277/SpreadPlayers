@@ -17,7 +17,7 @@ import java.util.UUID;
 public class TeleportManager {
 
     private final Map<UUID, UUID> requests = new HashMap<>();
-    private final Plugin plugin;
+    private final SpreadPlugin plugin;
 
     public UUID get(UUID key) {
         return requests.get(key);

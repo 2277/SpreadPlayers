@@ -1,7 +1,7 @@
 package net.socialhangover.spreadplayers.listeners;
 
 import lombok.RequiredArgsConstructor;
-import net.socialhangover.spreadplayers.Plugin;
+import net.socialhangover.spreadplayers.SpreadPlugin;
 import net.socialhangover.spreadplayers.config.ConfigKeys;
 import net.socialhangover.spreadplayers.storage.UserData;
 import org.bukkit.Bukkit;
@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 @RequiredArgsConstructor
 public class PlayerListener implements Listener {
 
-    private final Plugin plugin;
+    private final SpreadPlugin plugin;
 
     @EventHandler
     public void onPlayerJoinEvent(PlayerJoinEvent event) {

@@ -13,12 +13,12 @@ import java.util.logging.Level;
 
 public class UserManager {
 
-    private final Plugin plugin;
+    private final SpreadPlugin plugin;
 
     @Getter
     private final File folder;
 
-    public UserManager(Plugin plugin) {
+    public UserManager(SpreadPlugin plugin) {
         this.plugin = plugin;
 
         folder = new File(plugin.getDataFolder(), "userdata");

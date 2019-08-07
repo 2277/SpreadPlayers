@@ -5,7 +5,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Subcommand;
 import lombok.RequiredArgsConstructor;
-import net.socialhangover.spreadplayers.Plugin;
+import net.socialhangover.spreadplayers.SpreadPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -18,9 +18,9 @@ import java.util.logging.Level;
 
 @RequiredArgsConstructor
 @CommandAlias("%rootcommand")
-public class PluginCommand extends BaseCommand {
+public class SpreadCommand extends BaseCommand {
 
-    private final Plugin plugin;
+    private final SpreadPlugin plugin;
 
     @Subcommand("reload")
     @CommandPermission("spread.reload")

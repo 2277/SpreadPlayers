@@ -2,7 +2,7 @@ package net.socialhangover.spreadplayers;
 
 import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
-import net.socialhangover.spreadplayers.commands.PluginCommand;
+import net.socialhangover.spreadplayers.commands.SpreadCommand;
 import net.socialhangover.spreadplayers.commands.TpaCommand;
 import net.socialhangover.spreadplayers.config.Configuration;
 import net.socialhangover.spreadplayers.listeners.PlayerListener;
@@ -13,10 +13,10 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.UUID;
 
-public class Plugin extends JavaPlugin {
+public class SpreadPlugin extends JavaPlugin {
 
     @Getter
-    private static Plugin instance;
+    private static SpreadPlugin instance;
 
     @Getter
     private Configuration configuration;
@@ -53,7 +53,7 @@ public class Plugin extends JavaPlugin {
             }
         });
 
-        manager.registerCommand(new PluginCommand(this));
+        manager.registerCommand(new SpreadCommand(this));
         manager.registerCommand(new TpaCommand(this));
     }
 

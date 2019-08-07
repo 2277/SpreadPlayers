@@ -13,7 +13,7 @@ import net.kyori.text.event.ClickEvent;
 import net.kyori.text.event.HoverEvent;
 import net.kyori.text.format.TextColor;
 import net.kyori.text.format.TextDecoration;
-import net.socialhangover.spreadplayers.Plugin;
+import net.socialhangover.spreadplayers.SpreadPlugin;
 import net.socialhangover.spreadplayers.TeleportManager;
 import net.socialhangover.spreadplayers.storage.UserData;
 import org.bukkit.Bukkit;
@@ -25,7 +25,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TpaCommand extends BaseCommand {
 
-    private final Plugin plugin;
+    private final SpreadPlugin plugin;
 
     @CommandAlias("tpa")
     @CommandPermission("spread.tpa")
