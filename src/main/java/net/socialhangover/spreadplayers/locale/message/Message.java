@@ -5,7 +5,11 @@ import net.socialhangover.spreadplayers.locale.LocaleManager;
 
 public enum Message {
     RELOAD("&7&oConfiguration reloaded."),
-    ERROR_GENRIC("&7&oUnexpected error: check console for details."),
+    ERROR_GENRIC("&cUnexpected error: check console for details."),
+    ERROR_PLAYER_NOT_FOUND("&cPlayer was not found."),
+    ERROR_PERMISSION("&cInsufficient permission."),
+    ERROR_PLAYER_ONLY("&cYou must be a player to use this command."),
+    ERROR_MISSING_ARUGMENT("&cMissing argument(s); usage \\\"{}\\\""),
     RESET("&7&o{}'s userdata was successfully reset."),
     RESET_ERROR_MISSING("&7&o{}'s userdata was missing or could not be found."),
     TELEPORT_REQUEST("&7&oTeleport request sent to {}."),
@@ -78,15 +82,15 @@ public enum Message {
         }
     }
 
-    public String asString(@Nullable LocaleManager localeManager, Object... objects) {
+    public String asString(LocaleManager localeManager, Object... objects) {
         return colorize(format(localeManager, objects));
     }
 
-    private String format(@Nullable LocaleManager localeManager, Object... objects) {
+    private String format(LocaleManager localeManager, Object... objects) {
         return format(this.getTranslatedMessage(localeManager).replace("\\n", "\n"), objects);
     }
 
-    private String getTranslatedMessage(@Nullable LocaleManager localeManager) {
+    private String getTranslatedMessage(LocaleManager localeManager) {
         String prefix = null;
         if (localeManager != null) {
             prefix = localeManager.getTranslation(this);
