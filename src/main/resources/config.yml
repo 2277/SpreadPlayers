@@ -4,3 +4,8 @@ spread:
     y: 0
   distance: 256
   bounds: 16384
+
+teleport:
+  playtime: 432000 # in ticks (20 ~= 1 second) def: 432000 (6 hours)
+  limit: 1
+  timeout: 60000 # in ms. def: 60000 (1 minute)
