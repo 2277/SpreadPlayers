@@ -1,5 +1,6 @@
 package net.socialhangover.spreadplayers;
 
+import lombok.Getter;
 import net.socialhangover.spreadplayers.storage.UserData;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -13,6 +14,8 @@ import java.util.logging.Level;
 public class UserManager {
 
     private final Plugin plugin;
+
+    @Getter
     private final File folder;
 
     public UserManager(Plugin plugin) {

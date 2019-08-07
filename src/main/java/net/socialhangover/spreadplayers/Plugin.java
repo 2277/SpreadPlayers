@@ -42,6 +42,8 @@ public class Plugin extends JavaPlugin {
     private void registerCommands() {
         PaperCommandManager manager = new PaperCommandManager(this);
 
+        manager.getCommandReplacements().addReplacement("rootcommand", "spread");
+
         manager.getCommandContexts().registerOptionalContext(UUID.class, c -> {
             String arg = c.popFirstArg();
             try {
