@@ -9,7 +9,7 @@ public enum Message {
     ERROR_PLAYER_NOT_FOUND("&cPlayer was not found."),
     ERROR_PERMISSION("&cInsufficient permission."),
     ERROR_PLAYER_ONLY("&cYou must be a player to use this command."),
-    ERROR_MISSING_ARUGMENT("&cMissing argument(s); usage \\\"{}\\\""),
+    ERROR_MISSING_ARUGMENT("&cMissing argument(s); usage \"{}\""),
     RESET("&7&o{}'s userdata was successfully reset."),
     RESET_ERROR_MISSING("&7&o{}'s userdata was missing or could not be found."),
     TELEPORT_REQUEST("&7&oTeleport request sent to {}."),
