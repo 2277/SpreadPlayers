@@ -1,6 +1,6 @@
-name: SpreadPlayers
-version: 1
-description: New player onboarding as seen on play.socialhangover.net
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
 author: 2277
 website: https://github.com/2277/spreadplayers
 
