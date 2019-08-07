@@ -10,9 +10,9 @@ import lombok.RequiredArgsConstructor;
 public class Vector2 {
 
     @NonNull
-    private double x;
+    private int x;
 
     @NonNull
-    private double y;
+    private int y;
 
 }
