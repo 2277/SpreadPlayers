@@ -8,12 +8,8 @@ main: net.socialhangover.spreadplayers.SpreadPlugin
 api-version: 1.14
 
 commands:
-  reload:
-    description: Reload plugin configuration.
-    permission: spread.reload
-  reset:
-    description: Reset a user's userdata.
-    permission: spread.reset
+  spread:
+    description: Administrative commands
   tpa:
     permission: spread.tpa
   tpaccept:
