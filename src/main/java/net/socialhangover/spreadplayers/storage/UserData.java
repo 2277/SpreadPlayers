@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +18,6 @@ public class UserData {
 
     public final StorageKey<Location> SPAWN_LOCATION = new StorageKey<Location>() {
         @Override
-        @Nullable
         public Location get() {
             ConfigurationSection section = config.getConfigurationSection("location");
             return section == null ? null : new Location(Bukkit.getWorld(section.getString("world", "world")), section.getDouble("x"), section

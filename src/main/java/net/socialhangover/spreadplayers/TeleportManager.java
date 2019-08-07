@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +23,7 @@ public class TeleportManager {
         return requests.get(key);
     }
 
-    public boolean has(UUID key, @Nullable UUID value) {
+    public boolean has(UUID key, UUID value) {
         return requests.containsKey(key) && (value == null || requests.get(key).equals(value));
     }
 
@@ -56,10 +55,12 @@ public class TeleportManager {
                 OfflinePlayer recipient = Bukkit.getPlayer(uuid);
                 switch (reason) {
                     case TIMEOUT:
-                        ((Player) sender).sendMessage(Message.TELEPORT_ERROR_TIMEOUT.asString(plugin.getLocaleManager(), recipient.getName()));
+                        ((Player) sender).sendMessage(Message.TELEPORT_ERROR_TIMEOUT.asString(plugin.getLocaleManager(), recipient
+                                .getName()));
                         break;
                     case DENIED:
-                        ((Player) sender).sendMessage(Message.TELEPORT_ERROR_DENIED.asString(plugin.getLocaleManager(), recipient.getName()));
+                        ((Player) sender).sendMessage(Message.TELEPORT_ERROR_DENIED.asString(plugin.getLocaleManager(), recipient
+                                .getName()));
                         break;
                     default:
                         break;
@@ -76,11 +77,17 @@ public class TeleportManager {
     }
 
     public enum RequestResult {
-        SUCCESS, ERROR_UNKNOWN, ERROR_SELF, ERROR_PLAYTIME, ERROR_LIMIT,
+        SUCCESS,
+        ERROR_UNKNOWN,
+        ERROR_SELF,
+        ERROR_PLAYTIME,
+        ERROR_LIMIT,
     }
 
     public enum KillReason {
-        ACCEPTED, TIMEOUT, DENIED
+        ACCEPTED,
+        TIMEOUT,
+        DENIED
     }
 
 

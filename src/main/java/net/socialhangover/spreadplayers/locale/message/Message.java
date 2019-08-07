@@ -2,7 +2,6 @@ package net.socialhangover.spreadplayers.locale.message;
 
 import lombok.Getter;
 import net.socialhangover.spreadplayers.locale.LocaleManager;
-import org.jetbrains.annotations.Nullable;
 
 public enum Message {
     RELOAD("&7&oConfiguration reloaded."),
