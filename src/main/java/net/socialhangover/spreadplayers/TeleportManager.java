@@ -2,6 +2,7 @@ package net.socialhangover.spreadplayers;
 
 import lombok.RequiredArgsConstructor;
 import net.socialhangover.spreadplayers.config.ConfigKeys;
+import net.socialhangover.spreadplayers.locale.message.Message;
 import net.socialhangover.spreadplayers.storage.UserData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -55,10 +56,10 @@ public class TeleportManager {
                 OfflinePlayer recipient = Bukkit.getPlayer(uuid);
                 switch (reason) {
                     case TIMEOUT:
-                        ((Player) sender).sendMessage("Your teleport request to " + recipient.getName() + " has timed out.");
+                        ((Player) sender).sendMessage(Message.TELEPORT_ERROR_TIMEOUT.asString(plugin.getLocaleManager(), recipient.getName()));
                         break;
                     case DENIED:
-                        ((Player) sender).sendMessage("Your teleport request to " + recipient.getName() + " has been denied.");
+                        ((Player) sender).sendMessage(Message.TELEPORT_ERROR_DENIED.asString(plugin.getLocaleManager(), recipient.getName()));
                         break;
                     default:
                         break;

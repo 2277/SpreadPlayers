@@ -6,6 +6,7 @@ import co.aikar.commands.annotation.CommandPermission;
 import co.aikar.commands.annotation.Subcommand;
 import lombok.RequiredArgsConstructor;
 import net.socialhangover.spreadplayers.SpreadPlugin;
+import net.socialhangover.spreadplayers.locale.message.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -26,6 +27,7 @@ public class SpreadCommand extends BaseCommand {
     @CommandPermission("spread.reload")
     public void onReload(CommandSender sender) {
         plugin.getConfiguration().reload();
+        sender.sendMessage(Message.RELOAD.asString(plugin.getLocaleManager()));
     }
 
     @Subcommand("reset")
@@ -35,12 +37,12 @@ public class SpreadCommand extends BaseCommand {
         try {
             Files.deleteIfExists(file.toPath());
         } catch (NoSuchFileException e) {
-            sender.sendMessage(player.getName() + "'s userdata was missing or could not be found.");
+            sender.sendMessage(Message.RESET_ERROR_MISSING.asString(plugin.getLocaleManager(), player.getName()));
         } catch (IOException e) {
             Bukkit.getLogger().log(Level.SEVERE, "", e);
-            sender.sendMessage("Unexpected error: check console for details.");
+            sender.sendMessage(Message.ERROR_GENRIC.asString(plugin.getLocaleManager()));
         } finally {
-            sender.sendMessage(player.getName() + "'s userdata was successfully reset.");
+            sender.sendMessage(Message.RESET.asString(plugin.getLocaleManager(), player.getName()));
         }
     }
 

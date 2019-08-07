@@ -11,10 +11,9 @@ import net.kyori.text.TextComponent;
 import net.kyori.text.adapter.bukkit.TextAdapter;
 import net.kyori.text.event.ClickEvent;
 import net.kyori.text.event.HoverEvent;
-import net.kyori.text.format.TextColor;
-import net.kyori.text.format.TextDecoration;
 import net.socialhangover.spreadplayers.SpreadPlugin;
 import net.socialhangover.spreadplayers.TeleportManager;
+import net.socialhangover.spreadplayers.locale.message.Message;
 import net.socialhangover.spreadplayers.storage.UserData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -34,25 +33,31 @@ public class TpaCommand extends BaseCommand {
         TeleportManager.RequestResult result = plugin.getTeleportManager().makeRequest(sender, target.getPlayer());
         switch (result) {
             case SUCCESS:
-                sender.sendMessage("Teleport request sent to " + target.getPlayer().getName());
-                TextComponent textComponent = TextComponent.of(sender.getName() + " wishes to teleport to you.")
-                        .append(TextComponent.of(" [ ✔ ]")
-                                .hoverEvent(HoverEvent.showText(TextComponent.of("/tpaccept")))
-                                .clickEvent(ClickEvent.runCommand("/tpaccept " + sender.getUniqueId()))
-                                .color(TextColor.GREEN)
-                                .decoration(TextDecoration.BOLD, true))
-                        .append(TextComponent.of(" [ ✘ ]")
-                                .hoverEvent(HoverEvent.showText(TextComponent.of("/tpdeny")))
-                                .clickEvent(ClickEvent.runCommand("/tpdeny " + sender.getUniqueId()))
-                                .color(TextColor.RED)
-                                .decoration(TextDecoration.BOLD, true));
+                sender.sendMessage(Message.TELEPORT_REQUEST.asString(plugin.getLocaleManager(), target.getPlayer()
+                        .getName()));
+                TextComponent textComponent = TextComponent.of(Message.TELEPORT_REQUEST_OTHER.asString(plugin.getLocaleManager(), sender
+                        .getName()))
+                        .append(TextComponent.of(Message.TELEPORT_CLICK_ACCEPT.asString(plugin.getLocaleManager()))
+                                .hoverEvent(HoverEvent.showText(TextComponent.of(Message.TELEPORT_HOVER_ACCEPT.asString(plugin
+                                        .getLocaleManager()))))
+                                .clickEvent(ClickEvent.runCommand("/tpaccept " + sender.getUniqueId())))
+                        .append(TextComponent.of(Message.TELEPORT_CLICK_DENY.asString(plugin.getLocaleManager()))
+                                .hoverEvent(HoverEvent.showText(TextComponent.of(Message.TELEPORT_HOVER_ACCEPT.asString(plugin
+                                        .getLocaleManager()))))
+                                .clickEvent(ClickEvent.runCommand("/tpdeny " + sender.getUniqueId())));
                 TextAdapter.sendComponent(target.getPlayer(), textComponent);
                 break;
             case ERROR_SELF:
-                sender.sendMessage("You cannot teleport to you self.");
+                sender.sendMessage(Message.TELEPORT_ERROR_SELF.asString(plugin.getLocaleManager()));
+                break;
+            case ERROR_LIMIT:
+                sender.sendMessage(Message.TELEPORT_ERROR_LIMIT.asString(plugin.getLocaleManager()));
+                break;
+            case ERROR_PLAYTIME:
+                sender.sendMessage(Message.TELEPORT_ERROR_PLAYTIME.asString(plugin.getLocaleManager()));
                 break;
             default:
-                sender.sendMessage("You can not longer teleport to other players.");
+                sender.sendMessage(Message.TELEPORT_ERROR_GENERIC.asString(plugin.getLocaleManager()));
         }
     }
 
@@ -71,7 +76,7 @@ public class TpaCommand extends BaseCommand {
                 userData.TELEPORTS.set(userData.TELEPORTS.get() + 1);
                 userData.save();
             } else {
-                sender.sendMessage(recipient.getName() + " is not online.");
+                sender.sendMessage(Message.TELEPORT_ERROR_OFFLINE.asString(plugin.getLocaleManager(), recipient.getName()));
             }
         }
     }
@@ -83,7 +88,7 @@ public class TpaCommand extends BaseCommand {
             OfflinePlayer player = Bukkit.getServer().getOfflinePlayer(request);
             plugin.getTeleportManager().killRequest(sender, TeleportManager.KillReason.DENIED);
             if (!player.isOnline()) {
-                sender.sendMessage(player.getName() + " is not online.");
+                sender.sendMessage(Message.TELEPORT_ERROR_OFFLINE.asString(plugin.getLocaleManager(), player.getName()));
             }
         }
     }

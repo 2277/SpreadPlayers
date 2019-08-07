@@ -6,10 +6,12 @@ import net.socialhangover.spreadplayers.commands.SpreadCommand;
 import net.socialhangover.spreadplayers.commands.TpaCommand;
 import net.socialhangover.spreadplayers.config.Configuration;
 import net.socialhangover.spreadplayers.listeners.PlayerListener;
+import net.socialhangover.spreadplayers.locale.LocaleManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.UUID;
 
 public class SpreadPlugin extends JavaPlugin {
@@ -21,6 +23,9 @@ public class SpreadPlugin extends JavaPlugin {
     private Configuration configuration;
 
     @Getter
+    private LocaleManager localeManager;
+
+    @Getter
     private TeleportManager teleportManager;
 
     @Getter
@@ -30,6 +35,10 @@ public class SpreadPlugin extends JavaPlugin {
     public void onEnable() {
         instance = this;
         this.configuration = new Configuration(resolveConfig());
+
+        this.localeManager = new LocaleManager();
+        localeManager.tryLoad(this, getDataDirectory().resolve("locale.yml"));
+
         this.teleportManager = new TeleportManager(this);
         this.userManager = new UserManager(this);
 
@@ -54,6 +63,10 @@ public class SpreadPlugin extends JavaPlugin {
 
         manager.registerCommand(new SpreadCommand(this));
         manager.registerCommand(new TpaCommand(this));
+    }
+
+    public Path getDataDirectory() {
+        return getDataFolder().toPath().toAbsolutePath();
     }
 
     private File resolveConfig() {
