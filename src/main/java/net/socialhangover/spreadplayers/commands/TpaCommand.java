@@ -1,12 +1,5 @@
 package net.socialhangover.spreadplayers.commands;
 
-import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.CommandCompletion;
-import co.aikar.commands.annotation.CommandPermission;
-import co.aikar.commands.annotation.Optional;
-import co.aikar.commands.bukkit.contexts.OnlinePlayer;
-import lombok.RequiredArgsConstructor;
 import net.kyori.text.TextComponent;
 import net.kyori.text.adapter.bukkit.TextAdapter;
 import net.kyori.text.event.ClickEvent;
@@ -14,23 +7,43 @@ import net.kyori.text.event.HoverEvent;
 import net.socialhangover.spreadplayers.SpreadPlugin;
 import net.socialhangover.spreadplayers.TeleportManager;
 import net.socialhangover.spreadplayers.locale.message.Message;
-import net.socialhangover.spreadplayers.storage.UserData;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
+import java.util.Collections;
+import java.util.List;
 
-@RequiredArgsConstructor
 public class TpaCommand extends BaseCommand {
 
-    private final SpreadPlugin plugin;
+    public TpaCommand(SpreadPlugin plugin) {
+        super(plugin);
+    }
 
-    @CommandAlias("tpa")
-    @CommandPermission("spread.tpa")
-    @CommandCompletion("@players")
-    public void onTeleportRequested(Player sender, OnlinePlayer target) {
-        TeleportManager.RequestResult result = plugin.getTeleportManager().makeRequest(sender, target.getPlayer());
+    @Override
+    public void onCommandExecute(CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Message.ERROR_PLAYER_ONLY.asString(plugin.getLocaleManager()));
+            return;
+        }
+        if (!sender.hasPermission("spread.tpa")) {
+            sender.sendMessage(Message.ERROR_PERMISSION.asString(plugin.getLocaleManager()));
+            return;
+        }
+        if (args.length < 1) {
+            sender.sendMessage(Message.ERROR_MISSING_ARUGMENT.asString(plugin.getLocaleManager(), "/tpa <player>"));
+            return;
+        }
+
+        Player target = Bukkit.getPlayer(args[0]);
+        if (target == null) {
+            sender.sendMessage(Message.ERROR_PLAYER_NOT_FOUND.asString(plugin.getLocaleManager()));
+            return;
+        }
+        Player self = (Player) sender;
+
+        TeleportManager.RequestResult result = plugin.getTeleportManager().makeRequest(self, target.getPlayer());
         switch (result) {
             case SUCCESS:
                 sender.sendMessage(Message.TELEPORT_REQUEST.asString(plugin.getLocaleManager(), target.getPlayer()
@@ -40,11 +53,11 @@ public class TpaCommand extends BaseCommand {
                         .append(TextComponent.of(Message.TELEPORT_CLICK_ACCEPT.asString(plugin.getLocaleManager()))
                                 .hoverEvent(HoverEvent.showText(TextComponent.of(Message.TELEPORT_HOVER_ACCEPT.asString(plugin
                                         .getLocaleManager()))))
-                                .clickEvent(ClickEvent.runCommand("/tpaccept " + sender.getUniqueId())))
+                                .clickEvent(ClickEvent.runCommand("/tpaccept " + self.getUniqueId())))
                         .append(TextComponent.of(Message.TELEPORT_CLICK_DENY.asString(plugin.getLocaleManager()))
                                 .hoverEvent(HoverEvent.showText(TextComponent.of(Message.TELEPORT_HOVER_ACCEPT.asString(plugin
                                         .getLocaleManager()))))
-                                .clickEvent(ClickEvent.runCommand("/tpdeny " + sender.getUniqueId())));
+                                .clickEvent(ClickEvent.runCommand("/tpdeny " + self.getUniqueId())));
                 TextAdapter.sendComponent(target.getPlayer(), textComponent);
                 break;
             case ERROR_SELF:
@@ -61,35 +74,8 @@ public class TpaCommand extends BaseCommand {
         }
     }
 
-    @CommandAlias("tpaccept")
-    public void onTeleportAccept(Player sender, @Optional UUID source) {
-        if (plugin.getTeleportManager().has(sender.getUniqueId(), source)) {
-            UUID request = plugin.getTeleportManager().get(sender.getUniqueId());
-            OfflinePlayer recipient = Bukkit.getServer().getOfflinePlayer(request);
-            plugin.getTeleportManager().killRequest(sender, TeleportManager.KillReason.ACCEPTED);
-            if (recipient.isOnline()) {
-                ((Player) recipient).teleport(sender);
-                UserData userData = plugin.getUserManager().load(recipient.getUniqueId());
-                if (userData == null) {
-                    return;
-                }
-                userData.TELEPORTS.set(userData.TELEPORTS.get() + 1);
-                userData.save();
-            } else {
-                sender.sendMessage(Message.TELEPORT_ERROR_OFFLINE.asString(plugin.getLocaleManager(), recipient.getName()));
-            }
-        }
-    }
-
-    @CommandAlias("tpdeny")
-    public void onTeleportDeny(Player sender, @Optional UUID source) {
-        if (plugin.getTeleportManager().has(sender.getUniqueId(), source)) {
-            UUID request = plugin.getTeleportManager().get(sender.getUniqueId());
-            OfflinePlayer player = Bukkit.getServer().getOfflinePlayer(request);
-            plugin.getTeleportManager().killRequest(sender, TeleportManager.KillReason.DENIED);
-            if (!player.isOnline()) {
-                sender.sendMessage(Message.TELEPORT_ERROR_OFFLINE.asString(plugin.getLocaleManager(), player.getName()));
-            }
-        }
+    @Override
+    public List<String> getTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        return args.length == 1 ? getPlayers() : Collections.emptyList();
     }
 }
