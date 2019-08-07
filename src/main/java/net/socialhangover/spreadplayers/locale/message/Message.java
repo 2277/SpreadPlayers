@@ -18,8 +18,8 @@ public enum Message {
     TELEPORT_CLICK_DENY("&c&l [ ✘ ]"),
     TELEPORT_HOVER_ACCEPT("/tpaccept"),
     TELEPORT_HOVER_DENY("/tpdeny"),
-    TELEPORT_ERROR_GENERIC("&7&oYou cannot teleport to you self."),
-    TELEPORT_ERROR_SELF("&7&oYou cannot teleport to you self."),
+    TELEPORT_ERROR_GENERIC("&7&oYou can not longer teleport to other players."),
+    TELEPORT_ERROR_SELF("&7&oYou cannot teleport to yourself."),
     TELEPORT_ERROR_LIMIT("&7&oYou can not longer teleport to other players."), // TODO: Introduce limit + times teleported arguments.
     TELEPORT_ERROR_PLAYTIME("&7&oYou can not longer teleport to other players."), // TODO: Introduce a human readable playtime argument.
     TELEPORT_ERROR_OFFLINE("&7&o{} is not online."),
