@@ -30,7 +30,7 @@ public class SpreadCommand extends BaseCommand {
     }
 
     public void onReset(CommandSender sender, String[] args) {
-        if (args.length < 1) {
+        if (args.length < 2) {
             sender.sendMessage(Message.ERROR_MISSING_ARUGMENT.asString(plugin.getLocaleManager(), "/spread reset <player>"));
             return;
         }
@@ -75,10 +75,10 @@ public class SpreadCommand extends BaseCommand {
                     .stream()
                     .filter(v -> sender.hasPermission("spread." + v))
                     .collect(Collectors.toList());
-        } if (args.length > 1 && args[0].equals("reset") && sender.hasPermission("spread.reset")) {
+        } if (args.length == 2 && args[0].equals("reset") && sender.hasPermission("spread.reset")) {
             return Arrays.stream(Bukkit.getServer().getOfflinePlayers())
                     .map(p -> p.getName().toLowerCase())
-                    .filter(v -> v.startsWith(args[2].toLowerCase()))
+                    .filter(v -> v.startsWith(args[1].toLowerCase()))
                     .collect(Collectors.toList());
         }
         return Collections.emptyList();
