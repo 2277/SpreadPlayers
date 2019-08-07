@@ -19,6 +19,8 @@ public final class ConfigKeys {
             c.getInt("spread.bounds", 16384))
     );
 
+    public static final ConfigKey<Boolean> OVERWRITE_SPAWN_LOCATION_ON_TELEPORT = booleanKey("teleport.overwrite", true);
+
     public static final ConfigKey<Long> TELEPORT_PLAYTIME = longKey("teleport.playtime", 72000L);
     public static final ConfigKey<Integer> TELEPORT_LIMIT = intKey("teleport.limit", 1);
     public static final ConfigKey<Long> TELEPORT_TIMEOUT = longKey("teleport.timeout", 60000L);

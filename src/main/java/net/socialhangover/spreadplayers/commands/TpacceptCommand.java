@@ -2,6 +2,7 @@ package net.socialhangover.spreadplayers.commands;
 
 import net.socialhangover.spreadplayers.SpreadPlugin;
 import net.socialhangover.spreadplayers.TeleportManager;
+import net.socialhangover.spreadplayers.config.ConfigKeys;
 import net.socialhangover.spreadplayers.locale.message.Message;
 import net.socialhangover.spreadplayers.storage.UserData;
 import org.bukkit.Bukkit;
@@ -44,12 +45,17 @@ public class TpacceptCommand extends BaseCommand {
             OfflinePlayer recipient = Bukkit.getServer().getOfflinePlayer(request);
             plugin.getTeleportManager().killRequest(self, TeleportManager.KillReason.ACCEPTED);
             if (recipient.isOnline()) {
-                ((Player) recipient).teleport(self);
-                UserData userData = plugin.getUserManager().load(recipient.getUniqueId());
+                Player player = (Player) recipient;
+                player.teleport(self);
+                UserData userData = plugin.getUserManager().load(player.getUniqueId());
                 if (userData == null) {
                     return;
                 }
-                userData.TELEPORTS.set(userData.TELEPORTS.get() + 1);
+                int teleports = userData.TELEPORTS.get();
+                userData.TELEPORTS.set(teleports + 1);
+                if (plugin.getConfiguration().get(ConfigKeys.OVERWRITE_SPAWN_LOCATION_ON_TELEPORT) && teleports < 1) {
+                    userData.SPAWN_LOCATION.set(player.getLocation());
+                }
                 userData.save();
             } else {
                 sender.sendMessage(Message.TELEPORT_ERROR_OFFLINE.asString(plugin.getLocaleManager(), recipient.getName()));

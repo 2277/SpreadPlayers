@@ -6,7 +6,7 @@
 
     <groupId>net.socialhangover</groupId>
     <artifactId>SpreadPlayers</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>SpreadPlayers</name>
     <description>New player onboarding as seen on play.socialhangover.net</description>
