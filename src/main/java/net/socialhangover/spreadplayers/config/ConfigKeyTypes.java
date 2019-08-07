@@ -26,6 +26,8 @@ public class ConfigKeyTypes {
         }
         return ImmutableMap.copyOf(map);
     };
+    private static final KeyFactory<Integer> INT = YamlConfiguration::getInt;
+    private static final KeyFactory<Long> LONG = YamlConfiguration::getLong;
 
     public static BaseConfigKey<Boolean> booleanKey(String path, boolean def) {
         return BOOLEAN.createKey(path, def);
@@ -37,6 +39,14 @@ public class ConfigKeyTypes {
 
     public static BaseConfigKey<String> lowercaseStringKey(String path, String def) {
         return LOWERCASE_STRING.createKey(path, def);
+    }
+
+    public static BaseConfigKey<Integer> intKey(String path, int def) {
+        return INT.createKey(path, def);
+    }
+
+    public static BaseConfigKey<Long> longKey(String path, long def) {
+        return LONG.createKey(path, def);
     }
 
     public static <T> CustomKey<T> customKey(Function<YamlConfiguration, T> function) {
@@ -57,9 +67,6 @@ public class ConfigKeyTypes {
 
     public abstract static class BaseConfigKey<T> implements ConfigKey<T> {
         int ordinal = -1;
-
-        BaseConfigKey() {
-        }
 
         @Override
         public int ordinal() {

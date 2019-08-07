@@ -7,17 +7,21 @@ import java.lang.reflect.Modifier;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static net.socialhangover.spreadplayers.config.ConfigKeyTypes.customKey;
+import static net.socialhangover.spreadplayers.config.ConfigKeyTypes.*;
 
 public final class ConfigKeys {
 
     public static final ConfigKey<SpreadConfiguration> SPREAD = customKey(c -> new SpreadConfiguration(
             new Vector2(
-                    c.getDouble("spread.origin.x", 0),
-                    c.getDouble("spread.origin.y", 0)),
-            c.getDouble("spread.distance", 256),
-            c.getDouble("spread.bounds", 16384))
+                    c.getInt("spread.origin.x", 0),
+                    c.getInt("spread.origin.y", 0)),
+            c.getInt("spread.distance", 256),
+            c.getInt("spread.bounds", 16384))
     );
+
+    public static final ConfigKey<Long> TELEPORT_PLAYTIME = longKey("teleport.playtime", 72000L);
+    public static final ConfigKey<Integer> TELEPORT_LIMIT = intKey("teleport.limit", 1);
+    public static final ConfigKey<Long> TELEPORT_TIMEOUT = longKey("teleport.timeout", 60000L);
 
     private static final Map<String, ConfigKey<?>> KEYS;
     private static final int SIZE;
