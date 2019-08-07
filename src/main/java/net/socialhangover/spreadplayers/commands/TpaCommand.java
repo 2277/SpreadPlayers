@@ -55,7 +55,7 @@ public class TpaCommand extends BaseCommand {
                                         .getLocaleManager()))))
                                 .clickEvent(ClickEvent.runCommand("/tpaccept " + self.getUniqueId())))
                         .append(TextComponent.of(Message.TELEPORT_CLICK_DENY.asString(plugin.getLocaleManager()))
-                                .hoverEvent(HoverEvent.showText(TextComponent.of(Message.TELEPORT_HOVER_ACCEPT.asString(plugin
+                                .hoverEvent(HoverEvent.showText(TextComponent.of(Message.TELEPORT_HOVER_DENY.asString(plugin
                                         .getLocaleManager()))))
                                 .clickEvent(ClickEvent.runCommand("/tpdeny " + self.getUniqueId())));
                 TextAdapter.sendComponent(target.getPlayer(), textComponent);
