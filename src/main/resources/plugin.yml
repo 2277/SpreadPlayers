@@ -4,5 +4,35 @@ description: New player onboarding as seen on play.socialhangover.net
 author: 2277
 website: https://github.com/2277/spreadplayers
 
-main: net.socialhangover.spreadplayers.Plugin
+main: net.socialhangover.spreadplayers.SpreadPlugin
 api-version: 1.14
+
+commands:
+  reload:
+    description: Reload plugin configuration.
+    permission: spread.reload
+  reset:
+    description: Reset a user's userdata.
+    permission: spread.reset
+  tpa:
+    permission: spread.tpa
+  tpaccept:
+    permission: spread.tpaccept
+  tpdeny:
+    permission: spread.tpdeny
+
+permissions:
+  spread.*:
+    description: Grants access to all SpreadPlayer commands
+    children:
+      spread.reload: true
+      spread.reset: true
+      spread.tpa: true
+      spread.tpaccept: true
+      spread.tpdeny: true
+  spread.tpa:
+    default: true
+  spread.tpaccept:
+    default: true
+  spread.tpdeny:
+    default: true
