@@ -1,9 +1,10 @@
 package net.socialhangover.spreadplayers;
 
-import co.aikar.commands.PaperCommandManager;
 import lombok.Getter;
 import net.socialhangover.spreadplayers.commands.SpreadCommand;
 import net.socialhangover.spreadplayers.commands.TpaCommand;
+import net.socialhangover.spreadplayers.commands.TpacceptCommand;
+import net.socialhangover.spreadplayers.commands.TpdenyCommand;
 import net.socialhangover.spreadplayers.config.Configuration;
 import net.socialhangover.spreadplayers.listeners.PlayerListener;
 import net.socialhangover.spreadplayers.locale.LocaleManager;
@@ -12,7 +13,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.UUID;
 
 public class SpreadPlugin extends JavaPlugin {
 
@@ -48,21 +48,10 @@ public class SpreadPlugin extends JavaPlugin {
     }
 
     private void registerCommands() {
-        PaperCommandManager manager = new PaperCommandManager(this);
-
-        manager.getCommandReplacements().addReplacement("rootcommand", "spread");
-
-        manager.getCommandContexts().registerOptionalContext(UUID.class, c -> {
-            String arg = c.popFirstArg();
-            try {
-                return arg == null ? null : UUID.fromString(arg);
-            } catch(Exception e) {
-                return null;
-            }
-        });
-
-        manager.registerCommand(new SpreadCommand(this));
-        manager.registerCommand(new TpaCommand(this));
+        Bukkit.getPluginCommand("spread").setExecutor(new SpreadCommand(this));
+        Bukkit.getPluginCommand("tpa").setExecutor(new TpaCommand(this));
+        Bukkit.getPluginCommand("tpaccept").setExecutor(new TpacceptCommand(this));
+        Bukkit.getPluginCommand("tpdeny").setExecutor(new TpdenyCommand(this));
     }
 
     public Path getDataDirectory() {
