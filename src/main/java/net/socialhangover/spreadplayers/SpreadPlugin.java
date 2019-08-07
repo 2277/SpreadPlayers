@@ -10,7 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.nio.file.Path;
 import java.util.UUID;
 
 public class SpreadPlugin extends JavaPlugin {
@@ -55,10 +54,6 @@ public class SpreadPlugin extends JavaPlugin {
 
         manager.registerCommand(new SpreadCommand(this));
         manager.registerCommand(new TpaCommand(this));
-    }
-
-    public Path getRoot() {
-        return getDataFolder().toPath();
     }
 
     private File resolveConfig() {
