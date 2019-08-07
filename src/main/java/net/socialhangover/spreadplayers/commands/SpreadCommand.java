@@ -55,6 +55,10 @@ public class SpreadCommand extends BaseCommand {
 
     @Override
     public void onCommandExecute(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length == 0) {
+            sender.sendMessage(Message.ERROR_MISSING_ARUGMENT.asString(plugin.getLocaleManager(), "/spread <reload|reset>"));
+            return;
+        }
         switch (args[0].toLowerCase()) {
             case "reload":
                 if (sender.hasPermission("spread.reload")) {
