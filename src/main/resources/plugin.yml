@@ -26,6 +26,10 @@ permissions:
       spread.tpa: true
       spread.tpaccept: true
       spread.tpdeny: true
+  spread.reload:
+    default: op
+  spread.reset:
+    default: op
   spread.tpa:
     default: true
   spread.tpaccept:
