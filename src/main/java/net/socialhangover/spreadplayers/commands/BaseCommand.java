@@ -1,6 +1,7 @@
 package net.socialhangover.spreadplayers.commands;
 
 import net.socialhangover.spreadplayers.SpreadPlugin;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,5 +23,9 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter {
 
     public List<String> getTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         return Collections.emptyList();
+    }
+
+    public List<String> getPlayers() {
+        return Bukkit.getServer().getOnlinePlayers().stream().map(p -> p.getName()).collect(Collectors.toList());
     }
 }
