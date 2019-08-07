@@ -14,7 +14,7 @@
 
     <build>
         <defaultGoal>clean package install</defaultGoal>
-        <finalName>SpreadPlayers</finalName>
+        <finalName>SpreadPlayers-${version}</finalName>
         <resources>
             <resource>
                 <filtering>true</filtering>
