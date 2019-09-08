@@ -5,6 +5,8 @@ spread:
   distance: 256
   bounds: 16384
 
+teleport-distance: 32
+
 teleport:
   overwrite: true
   playtime: 432000 # in ticks (20 ~= 1 second) def: 432000 (6 hours)

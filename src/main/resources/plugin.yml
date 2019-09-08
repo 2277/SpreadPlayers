@@ -16,6 +16,8 @@ commands:
     permission: spread.tpaccept
   tpdeny:
     permission: spread.tpdeny
+  tpignore:
+    permission: spread.tpignore
 
 permissions:
   spread.*:
@@ -26,6 +28,7 @@ permissions:
       spread.tpa: true
       spread.tpaccept: true
       spread.tpdeny: true
+      spread.tpignore.bypass: true
   spread.reload:
     default: op
   spread.reset:
@@ -36,3 +39,7 @@ permissions:
     default: true
   spread.tpdeny:
     default: true
+  spread.tpignore:
+    default: true
+  spread.tpignore.bypass:
+    default: op

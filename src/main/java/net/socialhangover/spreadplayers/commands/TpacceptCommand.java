@@ -2,9 +2,9 @@ package net.socialhangover.spreadplayers.commands;
 
 import net.socialhangover.spreadplayers.SpreadPlugin;
 import net.socialhangover.spreadplayers.TeleportManager;
+import net.socialhangover.spreadplayers.UserData;
 import net.socialhangover.spreadplayers.config.ConfigKeys;
 import net.socialhangover.spreadplayers.locale.message.Message;
-import net.socialhangover.spreadplayers.storage.UserData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -34,9 +34,7 @@ public class TpacceptCommand extends BaseCommand {
         if (args.length > 0) {
             try {
                 source = UUID.fromString(args[0]);
-            } catch (Exception e) {
-                // ignore
-            }
+            } catch (Exception e) { /* ignore */ }
         }
 
         Player self = (Player) sender;
@@ -46,20 +44,24 @@ public class TpacceptCommand extends BaseCommand {
             plugin.getTeleportManager().killRequest(self, TeleportManager.KillReason.ACCEPTED);
             if (recipient.isOnline()) {
                 Player player = (Player) recipient;
-                player.teleport(self);
-                UserData userData = plugin.getUserManager().load(player.getUniqueId());
-                if (userData == null) {
-                    return;
+                Bukkit.getServer()
+                        .dispatchCommand(Bukkit.getConsoleSender(), String.format("spreadplayers %d %d %d %d %b %s", self
+                                .getLocation()
+                                .getBlockX(), self.getLocation().getBlockZ(), 0, plugin.getConfiguration()
+                                .get(ConfigKeys.TELEPORT_SPREAD), false, player.getName()));
+
+                UserData userData = plugin.getUser(player.getUniqueId());
+                if (plugin.getConfiguration()
+                        .get(ConfigKeys.OVERWRITE_SPAWN_LOCATION_ON_TELEPORT) && userData.getTeleports() < 1) {
+                    userData.setSpawnLocation(player.getLocation());
                 }
-                int teleports = userData.TELEPORTS.get();
-                userData.TELEPORTS.set(teleports + 1);
-                if (plugin.getConfiguration().get(ConfigKeys.OVERWRITE_SPAWN_LOCATION_ON_TELEPORT) && teleports < 1) {
-                    userData.SPAWN_LOCATION.set(player.getLocation());
-                }
+                userData.setTeleports(userData.getTeleports() + 1);
                 userData.save();
             } else {
                 sender.sendMessage(Message.TELEPORT_ERROR_OFFLINE.asString(plugin.getLocaleManager(), recipient.getName()));
             }
+        } else {
+            sender.sendMessage(Message.TELEPORT_ERROR_EXPIRED.asString(plugin.getLocaleManager()));
         }
     }
 }

@@ -1,47 +1,45 @@
 package net.socialhangover.spreadplayers;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import lombok.Getter;
-import net.socialhangover.spreadplayers.storage.UserData;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.UUID;
-import java.util.logging.Level;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
-public class UserManager {
+public class UserManager extends CacheLoader<UUID, UserData> {
+
+    @Getter
+    private final LoadingCache<UUID, UserData> users;
 
     private final SpreadPlugin plugin;
 
-    @Getter
-    private final File folder;
-
     public UserManager(SpreadPlugin plugin) {
         this.plugin = plugin;
+        users = CacheBuilder.newBuilder() //
+                .maximumSize(20) //
+                .expireAfterAccess(10, TimeUnit.MINUTES) //
+                .build(this);
+    }
 
-        folder = new File(plugin.getDataFolder(), "userdata");
-        if(!folder.exists()) {
-            folder.mkdirs();
+    public UserData getUser(UUID uuid) {
+        try {
+            return users.get(uuid);
+        } catch (ExecutionException e) {
+            // ignored
         }
+        return null;
     }
 
-    public UserData load(Player player) {
-        return load(player.getUniqueId());
-    }
-
-    public UserData load(UUID uuid) {
-        File file = new File(folder, uuid + ".yml");
-        if(!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                Bukkit.getLogger().log(Level.SEVERE, "Cannot create " + file, e);
-                return null;
-            }
+    @Override
+    public UserData load(UUID uuid) throws Exception {
+        Player player = plugin.getServer().getPlayer(uuid);
+        if (player != null) {
+            return new UserData(player, plugin);
         }
-        return new UserData(file, YamlConfiguration.loadConfiguration(file));
+        throw new Exception("User was not found.");
     }
-
 }

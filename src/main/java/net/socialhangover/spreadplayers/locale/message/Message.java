@@ -13,19 +13,24 @@ public enum Message {
     RESET("&7&o{}'s userdata was successfully reset."),
     RESET_ERROR_MISSING("&7&o{}'s userdata was missing or could not be found."),
     TELEPORT_REQUEST("&7&oTeleport request sent to {}."),
-    TELEPORT_REQUEST_OTHER("&7&o{} wishes wishes to teleport to you."),
+    TELEPORT_REQUEST_OTHER("&7&o{} wishes to teleport to you."),
     TELEPORT_CLICK_ACCEPT("&a&l [ ✔ ]"),
     TELEPORT_CLICK_DENY("&c&l [ ✘ ]"),
     TELEPORT_HOVER_ACCEPT("/tpaccept"),
     TELEPORT_HOVER_DENY("/tpdeny"),
-    TELEPORT_ERROR_GENERIC("&7&oYou can not longer teleport to other players."),
-    TELEPORT_ERROR_SELF("&7&oYou cannot teleport to yourself."),
-    TELEPORT_ERROR_LIMIT("&7&oYou can not longer teleport to other players."), // TODO: Introduce limit + times teleported arguments.
-    TELEPORT_ERROR_PLAYTIME("&7&oYou can not longer teleport to other players."), // TODO: Introduce a human readable playtime argument.
-    TELEPORT_ERROR_OFFLINE("&7&o{} is not online."),
-    TELEPORT_ERROR_TIMEOUT("&7&oYour teleport request to {} has timed out."),
-    TELEPORT_ERROR_DENIED("&7&oYour teleport request to {} has been denied."),
-    ;
+    TELEPORT_ERROR_GENERIC("&cYou can not longer teleport to other players."),
+    TELEPORT_ERROR_SELF("&cYou cannot teleport to yourself."),
+    TELEPORT_ERROR_LIMIT("&cYou can not longer teleport to other players."), // TODO: Introduce limit + times teleported arguments.
+    TELEPORT_ERROR_PLAYTIME("&cYou can not longer teleport to other players."), // TODO: Introduce a human readable playtime argument.
+    TELEPORT_ERROR_OFFLINE("&c{} is not online."),
+    TELEPORT_ERROR_TIMEOUT("&cYour teleport request to {} has timed out."),
+    TELEPORT_ERROR_DENIED("&cYour teleport request to {} has been denied."),
+    TELEPORT_ERROR_OVERWORLD("&c{} appears to be in another dimension."),
+    TELEPORT_ERROR_EXPIRED("&cThat teleport request has expired."),
+    ERROR_PLAYER_IGNORING("&c{} is not accepting teleport requests."),
+    IGNORE_ENABLED("&7&oYou will now receive teleport requests."),
+    IGNORE_DISABLED("&7&oYou will no longer receive teleport requests."),
+    TELEPORT_WARNING("&cWARNING: This teleport will bring you closer to {} but you may arrive up to 32 blocks away from their current location. Please make sure {} is in a suitable location before continuing. This action is irreversible and will modify your spawn location. If you have a bed, please break it before continuing. You are allowed ONE teleport in your first six hours on &lSOCIALHANGOVER&c, use it wisely.\n\n If you really wish to continue, type \"/tpa\" again. This cannot be undone; you have been warned.");
 
     @Getter
     private final String message;

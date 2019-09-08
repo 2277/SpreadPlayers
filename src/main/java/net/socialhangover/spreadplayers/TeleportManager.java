@@ -3,10 +3,10 @@ package net.socialhangover.spreadplayers;
 import lombok.RequiredArgsConstructor;
 import net.socialhangover.spreadplayers.config.ConfigKeys;
 import net.socialhangover.spreadplayers.locale.message.Message;
-import net.socialhangover.spreadplayers.storage.UserData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -33,13 +33,18 @@ public class TeleportManager {
                 .get(ConfigKeys.TELEPORT_PLAYTIME)) {
             return RequestResult.ERROR_PLAYTIME;
         }
-        UserData userData = plugin.getUserManager().load(sender.getUniqueId());
+        UserData userData = plugin.getUser(sender.getUniqueId());
         if (userData == null) {
             return RequestResult.ERROR_UNKNOWN;
         }
-        if (userData.TELEPORTS.get() >= plugin.getConfiguration().get(ConfigKeys.TELEPORT_LIMIT)) {
+        if (userData.getTeleports() >= plugin.getConfiguration().get(ConfigKeys.TELEPORT_LIMIT)) {
             return RequestResult.ERROR_LIMIT;
         }
+
+        if (recipient.getWorld().getEnvironment() != World.Environment.NORMAL) {
+            return RequestResult.ERROR_ONLY_OVERWORLD;
+        }
+
         requests.put(recipient.getUniqueId(), sender.getUniqueId());
         Bukkit.getServer()
                 .getScheduler()
@@ -82,6 +87,7 @@ public class TeleportManager {
         ERROR_SELF,
         ERROR_PLAYTIME,
         ERROR_LIMIT,
+        ERROR_ONLY_OVERWORLD,
     }
 
     public enum KillReason {

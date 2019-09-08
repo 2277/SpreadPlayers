@@ -11,14 +11,10 @@ import static net.socialhangover.spreadplayers.config.ConfigKeyTypes.*;
 
 public final class ConfigKeys {
 
-    public static final ConfigKey<SpreadConfiguration> SPREAD = customKey(c -> new SpreadConfiguration(
-            new Vector2(
-                    c.getInt("spread.origin.x", 0),
-                    c.getInt("spread.origin.y", 0)),
-            c.getInt("spread.distance", 256),
-            c.getInt("spread.bounds", 16384))
-    );
+    public static final ConfigKey<SpreadConfiguration> FIRST_JOIN_SPREAD = customKey(c -> new SpreadConfiguration(new Vector2(c
+            .getInt("spread.origin.x", 0), c.getInt("spread.origin.y", 0)), c.getInt("spread.distance", 256), c.getInt("spread.bounds", 16384)));
 
+    public static final ConfigKey<Integer> TELEPORT_SPREAD = customKey(c -> c.getInt("teleport-distance", 32));
     public static final ConfigKey<Boolean> OVERWRITE_SPAWN_LOCATION_ON_TELEPORT = booleanKey("teleport.overwrite", true);
 
     public static final ConfigKey<Long> TELEPORT_PLAYTIME = longKey("teleport.playtime", 72000L);
