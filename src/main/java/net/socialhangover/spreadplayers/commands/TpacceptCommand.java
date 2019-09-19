@@ -51,8 +51,7 @@ public class TpacceptCommand extends BaseCommand {
                                 .get(ConfigKeys.TELEPORT_SPREAD), false, player.getName()));
 
                 UserData userData = plugin.getUser(player.getUniqueId());
-                if (plugin.getConfiguration()
-                        .get(ConfigKeys.OVERWRITE_SPAWN_LOCATION_ON_TELEPORT) && userData.getTeleports() < 1) {
+                if (plugin.getConfiguration().get(ConfigKeys.OVERWRITE_SPAWN_LOCATION_ON_TELEPORT)) {
                     userData.setSpawnLocation(player.getLocation());
                 }
                 userData.setTeleports(userData.getTeleports() + 1);
