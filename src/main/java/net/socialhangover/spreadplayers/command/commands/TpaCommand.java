@@ -1,4 +1,4 @@
-package net.socialhangover.spreadplayers.commands;
+package net.socialhangover.spreadplayers.command.commands;
 
 import lombok.Data;
 import net.kyori.text.TextComponent;
@@ -7,61 +7,55 @@ import net.kyori.text.event.ClickEvent;
 import net.kyori.text.event.HoverEvent;
 import net.socialhangover.spreadplayers.SpreadPlugin;
 import net.socialhangover.spreadplayers.TeleportManager;
+import net.socialhangover.spreadplayers.command.AbstractCommand;
 import net.socialhangover.spreadplayers.locale.message.Message;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 
-public class TpaCommand extends net.socialhangover.spreadplayers.commands.BaseCommand {
+public class TpaCommand extends AbstractCommand {
 
     private static final Map<UUID, UUID> requests = new HashMap<>();
 
-    public TpaCommand(SpreadPlugin plugin) {
-        super(plugin);
+    public TpaCommand() {
+        super(true, "tpa");
     }
 
     @Override
-    public void onCommandExecute(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Message.ERROR_PLAYER_ONLY.asString(plugin.getLocaleManager()));
-            return;
-        }
-        if (!sender.hasPermission("spread.tpa")) {
-            sender.sendMessage(Message.ERROR_PERMISSION.asString(plugin.getLocaleManager()));
-            return;
-        }
-
+    protected ReturnType runCommand(SpreadPlugin plugin, CommandSender sender, String... args) {
         Player self = (Player) sender;
 
         Player target;
         if (args.length < 1 && requests.containsKey(self.getUniqueId())) {
             target = Bukkit.getPlayer(requests.get(self.getUniqueId()));
         } else if (args.length < 1) {
-            sender.sendMessage(Message.ERROR_MISSING_ARUGMENT.asString(plugin.getLocaleManager(), "/tpa <player>"));
-            return;
+            return ReturnType.SYNTAX_ERROR;
         } else {
             target = Bukkit.getPlayer(args[0]);
         }
 
         if (target == null) {
             sender.sendMessage(Message.ERROR_PLAYER_NOT_FOUND.asString(plugin.getLocaleManager()));
-            return;
+            return ReturnType.FAILURE;
         }
 
         if (plugin.getUser(target.getUniqueId()).isIgnoring() && !sender.hasPermission("spread.ignore.bypass")) {
             sender.sendMessage(Message.ERROR_PLAYER_IGNORING.asString(plugin.getLocaleManager(), target.getName()));
-            return;
+            return ReturnType.FAILURE;
         }
 
         if (!requests.containsKey(self.getUniqueId()) || !requests.get(self.getUniqueId())
                 .equals(target.getUniqueId())) {
             self.sendMessage(Message.TELEPORT_WARNING.asString(plugin.getLocaleManager(), target.getName(), target.getName()));
             requests.put(self.getUniqueId(), target.getUniqueId());
-            return;
+            return ReturnType.SUCCESS;
         } else {
             requests.remove(self.getUniqueId());
         }
@@ -98,11 +92,23 @@ public class TpaCommand extends net.socialhangover.spreadplayers.commands.BaseCo
             default:
                 sender.sendMessage(Message.TELEPORT_ERROR_GENERIC.asString(plugin.getLocaleManager()));
         }
+
+        return ReturnType.SUCCESS;
     }
 
     @Override
-    public List<String> getTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return args.length == 1 ? getPlayers() : Collections.emptyList();
+    protected List<String> onTab(SpreadPlugin plugin, CommandSender sender, String... args) {
+        return args.length == 1 ? getOnlinePlayers() : Collections.emptyList();
+    }
+
+    @Override
+    public String getPermissionNode() {
+        return "spread.tpa";
+    }
+
+    @Override
+    public String getSyntax() {
+        return "/tpa <player>";
     }
 
     @Data

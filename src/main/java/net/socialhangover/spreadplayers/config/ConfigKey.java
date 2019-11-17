@@ -1,9 +1,9 @@
 package net.socialhangover.spreadplayers.config;
 
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 
 public interface ConfigKey<T> {
     int ordinal();
 
-    T get(YamlConfiguration configuration);
+    T get(ConfigurationSection c);
 }

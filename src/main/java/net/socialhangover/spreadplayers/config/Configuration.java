@@ -5,18 +5,14 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
 
 public class Configuration {
-    private Object[] values = null;
 
     private final File file;
-
-    private YamlConfiguration configuration;
+    private Object[] values = null;
+    private YamlConfiguration config;
 
     public Configuration(File file) {
         this.file = file;
-
-        this.configuration = YamlConfiguration.loadConfiguration(file);
-
-        load();
+        this.config = YamlConfiguration.loadConfiguration(file);
     }
 
     public synchronized void load() {
@@ -32,13 +28,13 @@ public class Configuration {
                 continue;
             }
 
-            Object value = key.get(this.configuration);
+            Object value = key.get(this.config);
             this.values[key.ordinal()] = value;
         }
     }
 
     public void reload() {
-        configuration = YamlConfiguration.loadConfiguration(file);
+        config = YamlConfiguration.loadConfiguration(file);
         load();
     }
 

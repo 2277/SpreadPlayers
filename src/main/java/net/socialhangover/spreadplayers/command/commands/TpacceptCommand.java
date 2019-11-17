@@ -1,35 +1,27 @@
-package net.socialhangover.spreadplayers.commands;
+package net.socialhangover.spreadplayers.command.commands;
 
 import net.socialhangover.spreadplayers.SpreadPlugin;
 import net.socialhangover.spreadplayers.TeleportManager;
 import net.socialhangover.spreadplayers.UserData;
+import net.socialhangover.spreadplayers.command.AbstractCommand;
 import net.socialhangover.spreadplayers.config.ConfigKeys;
 import net.socialhangover.spreadplayers.locale.message.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.UUID;
 
-public class TpacceptCommand extends BaseCommand {
+public class TpacceptCommand extends AbstractCommand {
 
-    public TpacceptCommand(SpreadPlugin plugin) {
-        super(plugin);
+    public TpacceptCommand() {
+        super(true, "tpaccept");
     }
 
     @Override
-    public void onCommandExecute(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(Message.ERROR_PLAYER_ONLY.asString(plugin.getLocaleManager()));
-            return;
-        }
-        if (!sender.hasPermission("spread.tpaccept")) {
-            sender.sendMessage(Message.ERROR_PERMISSION.asString(plugin.getLocaleManager()));
-            return;
-        }
-
+    protected ReturnType runCommand(SpreadPlugin plugin, CommandSender sender, String... args) {
         UUID source = null;
         if (args.length > 0) {
             try {
@@ -56,11 +48,31 @@ public class TpacceptCommand extends BaseCommand {
                 }
                 userData.setTeleports(userData.getTeleports() + 1);
                 userData.save();
+
+                sender.sendMessage(Message.TELEPORT_ACCEPT_TARGET.asString(plugin.getLocaleManager(), recipient.getName()));
+                player.sendMessage(Message.TELEPORT_ACCEPT_RECIPIENT.asString(plugin.getLocaleManager(), sender.getName()));
             } else {
                 sender.sendMessage(Message.TELEPORT_ERROR_OFFLINE.asString(plugin.getLocaleManager(), recipient.getName()));
             }
-        } else {
-            sender.sendMessage(Message.TELEPORT_ERROR_EXPIRED.asString(plugin.getLocaleManager()));
+            return ReturnType.SUCCESS;
         }
+
+        sender.sendMessage(Message.TELEPORT_ERROR_EXPIRED.asString(plugin.getLocaleManager()));
+        return ReturnType.FAILURE;
+    }
+
+    @Override
+    protected List<String> onTab(SpreadPlugin plugin, CommandSender sender, String... args) {
+        return null;
+    }
+
+    @Override
+    public String getPermissionNode() {
+        return "spread.tpaccept";
+    }
+
+    @Override
+    public String getSyntax() {
+        return "/tpaccept [id]";
     }
 }

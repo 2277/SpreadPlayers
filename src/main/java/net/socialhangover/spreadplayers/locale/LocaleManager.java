@@ -14,6 +14,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public final class LocaleManager {
+
     private Map<Message, String> messages = ImmutableMap.of();
 
     public void tryLoad(SpreadPlugin plugin, Path file) {
@@ -32,7 +33,7 @@ public final class LocaleManager {
         try (BufferedReader reader = Files.newBufferedReader(file, StandardCharsets.UTF_8)) {
             EnumMap<Message, String> messages = new EnumMap<>(Message.class);
 
-            Map<String, Object> data = (Map<String, Object>) new Yaml().load(reader);
+            Map<String, Object> data = new Yaml().load(reader);
             for (Map.Entry<String, Object> entry : data.entrySet()) {
                 if (entry.getKey() == null || entry.getKey().isEmpty() || entry.getValue() == null) {
                     continue;
@@ -57,4 +58,9 @@ public final class LocaleManager {
     public String getTranslation(Message key) {
         return this.messages.get(key);
     }
+
+    public String get(Message key, Object... objects) {
+        return key.asString(this, objects);
+    }
+
 }

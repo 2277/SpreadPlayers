@@ -1,14 +1,18 @@
 spread:
-  origin:
-    x: 0
-    y: 0
-  distance: 256
-  bounds: 16384
+  x: 0
+  z: 0
+  distance: 192
+  bounds: 6144
 
-teleport-distance: 32
+cluster:
+  enabled: true
+  timeout: 21600000 # in ms. def: 21600000 (6 hour)
+  distance: 64
+  bounds: 256
 
 teleport:
   overwrite: true
   playtime: 432000 # in ticks (20 ~= 1 second) def: 432000 (6 hours)
   limit: 1
   timeout: 60000 # in ms. def: 60000 (1 minute)
+  spread: 32

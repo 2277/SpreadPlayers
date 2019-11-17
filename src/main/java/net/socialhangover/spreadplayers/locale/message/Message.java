@@ -4,16 +4,18 @@ import lombok.Getter;
 import net.socialhangover.spreadplayers.locale.LocaleManager;
 
 public enum Message {
-    RELOAD("&7&oConfiguration reloaded."),
+    RELOAD("Configuration reloaded."),
+    RESET_ONLINE("{} has been reset."),
+    RESET_OFFLINE("{} will be reset next time they login (before restart)."),
     ERROR_GENRIC("&cUnexpected error: check console for details."),
     ERROR_PLAYER_NOT_FOUND("&cPlayer was not found."),
     ERROR_PERMISSION("&cInsufficient permission."),
     ERROR_PLAYER_ONLY("&cYou must be a player to use this command."),
     ERROR_MISSING_ARUGMENT("&cMissing argument(s); usage \"{}\""),
-    RESET("&7&o{}'s userdata was successfully reset."),
-    RESET_ERROR_MISSING("&7&o{}'s userdata was missing or could not be found."),
-    TELEPORT_REQUEST("&7&oTeleport request sent to {}."),
-    TELEPORT_REQUEST_OTHER("&7&o{} wishes to teleport to you."),
+    TELEPORT_ACCEPT_RECIPIENT("You have been teleported nearby {}."),
+    TELEPORT_ACCEPT_TARGET("{} has been teleported somewhere nearby."),
+    TELEPORT_REQUEST("Teleport request sent to {}."),
+    TELEPORT_REQUEST_OTHER("{} wishes to teleport to you."),
     TELEPORT_CLICK_ACCEPT("&a&l [ ✔ ]"),
     TELEPORT_CLICK_DENY("&c&l [ ✘ ]"),
     TELEPORT_HOVER_ACCEPT("/tpaccept"),
@@ -28,8 +30,8 @@ public enum Message {
     TELEPORT_ERROR_OVERWORLD("&c{} appears to be in another dimension."),
     TELEPORT_ERROR_EXPIRED("&cThat teleport request has expired."),
     ERROR_PLAYER_IGNORING("&c{} is not accepting teleport requests."),
-    IGNORE_ENABLED("&7&oYou will now receive teleport requests."),
-    IGNORE_DISABLED("&7&oYou will no longer receive teleport requests."),
+    IGNORE_ENABLED("You will now receive teleport requests."),
+    IGNORE_DISABLED("You will no longer receive teleport requests."),
     TELEPORT_WARNING("&cWARNING: This teleport will bring you closer to {} but you may arrive up to 32 blocks away from their current location. Please make sure {} is in a suitable location before continuing. This action is irreversible and will modify your spawn location. If you have a bed, please break it before continuing. You are allowed ONE teleport in your first six hours on &lSOCIALHANGOVER&c, use it wisely.\n\n If you really wish to continue, type \"/tpa\" again. This cannot be undone; you have been warned.");
 
     @Getter
